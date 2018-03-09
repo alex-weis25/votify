@@ -1,60 +1,26 @@
-// import React, { Component } from "react";
-// import axios from 'axios';
+import React, { Component } from "react";
+import { Link } from 'react-router-dom'
+import axios from "axios";
 
-// export class SearchBar extends Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       search: ""
-//     };
-//   }
+export class Login extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+    }
+  }
 
-//   onSubmit = (event) => {
-//     event.preventDefault();
-//     const artists = this.state.search
-//     console.log("artists in onSubmit!!", artists)
-//     const content = {
-//       artists,
-//     }
-//     axios.post('/api/search/artist', content);
-//   }
+  onClick = (event) => {
+    event.preventDefault();
+    console.log('in loginClick')
+    axios.get('/login')
+  }
 
-//   handleChange = event => {
-//     event.preventDefault();
-//     let { name, value } = event.target;
-//     this.setState({
-//       [name]: value
-//     });
-//   };
+  render() {
 
-//   render() {
-//     return (
-//       <div id="login">
-
-// <div>
-// <div id="login">
-//  <h1>First, log in to spotify</h1>
-//  <a href="/login">Log in</a>
-// </div>
-// <div id="loggedin">
-// </div>
-// </div>
-// <script id="loggedin-template" type="text/x-handlebars-template">
-// <h1>Logged in as </h1>
-// <img id="avatar" width="200" src="" />
-// <dl>
-//  <dt>Display name</dt><dd></dd>
-//  <dt>Username</dt><dd></dd>
-//  <dt>Email</dt><dd></dd>
-//  <dt>Spotify URI</dt><dd><a href=""></a></dd>
-//  <dt>Link</dt><dd><a href=""></a></dd>
-//  <dt>Profile Image</dt><dd></dd>
-// </dl>
-// <p><a href="/">Log in again</a></p>
-// </script>
-//       </div>
-//     );
-//   }
-// }
-
-
+    return (
+      <div id="login">
+        <button onClick={this.onClick}>Login with Spotify</button>
+      </div>
+    );
+  }
+};

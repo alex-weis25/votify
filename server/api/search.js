@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const axios = require('axios');
+const Songs = require('../db/models/songs.js')
+
 const Spotify = require('machinepack-spotify');
 require('../../secrets.js')
 
@@ -8,7 +10,7 @@ const id = process.env.SPOTIFY_CLIENT_ID;
 const secret = process.env.SPOTIFY_CLIENT_SECRET;
 const callback = process.env.SPOTIFY_CLIENT_REDIRECT;
 const bearer = process.env.SPOTIFY_CLIENT_BEARER;
-const authUri = 'https://accounts.spotify.com/authorize';
+// const authUri = 'https://accounts.spotify.com/authorize';
 
 module.exports = router;
 
@@ -39,4 +41,12 @@ router.get('/artist', (req, res, next) => {
   })
 })
 
+router.post('/', (req, res, next) => {
+  console.log('in post route:', req.body)
+  Songs.create(req.body)
+  .then(created => {
+    res.json(created.data)
+  })
+  .catch(next);
+})
 

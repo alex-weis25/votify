@@ -17,18 +17,17 @@ export class SearchBar extends Component {
   }
 
   onSubmit = (event) => {
-    event.preventDefault();
-    const artists = this.state.search
-    console.log("artists in onSubmit!!", artists)
+    const artist = this.state.search
+    console.log("artists in onSubmit!!", artist)
     const content = {
-      artists,
+      name: artist,
+      artist: "default artist"
     }
-    // axios.get(`${authUri}?client_id=${id}&response_type=code&redirect_uri=${callback}`)
-    // .then(results => console.log(results))
-    // .catch(error);
-    axios.get('/api/search/artist', content)
-    .then(results => console.log(results.data))
-    .catch(error => console.log(error))
+    axios.post('/api/search', content)
+    .then(results => console.log(results))
+    // axios.get('/api/search/artist', content)
+    // .then(results => console.log(results.data))
+    // .catch(error => console.log(error))
   }
 
   handleChange = event => {
@@ -37,6 +36,7 @@ export class SearchBar extends Component {
     this.setState({
       [name]: value
     });
+    console.log("search: ", this.state.search)
   };
 
   render() {
@@ -48,7 +48,7 @@ export class SearchBar extends Component {
             className="form-control"
             value={this.state.search}
             onChange={this.handleChange}
-            placeholder="add content"
+            placeholder="search artist"
           />
           <button type="submit">Submit</button>
         </form>
