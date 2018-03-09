@@ -7,6 +7,7 @@ let request = require('request')
 let querystring = require('querystring')
 const path = require('path');
 const db = require('./db/index.js');
+const socketio = require('socket.io');
 
 module.exports = app;
 
@@ -75,15 +76,35 @@ app.get('*', (req, res, next) => {
 
 const PORT = process.env.PORT || 3000;
 
+
+var server = app.listen(PORT, (err) => {
+  if(err) throw err;
+  console.log(`Coming in HOT on port ${PORT}`);
+});
+
+//Sync db then start server
 db.sync().then(() => {
   console.log("syncing database...")
-  app.listen(PORT, (err) => {
-    if(err) throw err;
-    console.log(`Coming in HOT on port ${PORT}`);
-  });
 })
 
+// console.log('server!!!!!', server);
+//Sockets
+const io = socketio(server)
 
+io.on('connection', (socket) => {
+  console.log(`${socket.id} has joined the party!`)
+
+  socket.on('addSong', () => {
+    console.log("bout to broadcast")
+    socket.broadcast.emit('newQueue')
+  })
+
+  socket.on('disconnect', socket => {
+    console.log(`Hate to see you leave ${socket.id}`)
+  })
+})
+
+//Error handling
 app.use(function (err, req, res, next) {
   console.error(err);
   console.error(err.stack);

@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const axios = require('axios');
 const Songs = require('../db/models/songs.js')
+// const io = require('../index.js')
 
 const Spotify = require('machinepack-spotify');
 require('../../secrets.js')
@@ -46,6 +47,8 @@ router.post('/', (req, res, next) => {
   Songs.create(req.body)
   .then(created => {
     res.json(created.data)
+    // console.log('io: ', io)
+    // io.emit('addSong')
   })
   .catch(next);
 })

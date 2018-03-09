@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { withRouter, Route, Switch } from "react-router-dom";
 
 import queryString from "query-string";
+import socket from './sockets';
 import axios from "axios";
 // import { withRouter } from 'react-router-dom'
 

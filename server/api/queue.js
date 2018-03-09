@@ -5,7 +5,6 @@ const Songs = require('../db/models/songs.js')
 module.exports = router;
 
 router.get('/', (req, res, next) => {
-  console.log("In queue GET!!!")
   Songs.findAll()
   .then(songs => {
     const updatedOrder = [];

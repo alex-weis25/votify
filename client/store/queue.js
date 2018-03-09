@@ -27,7 +27,7 @@ export const fetchQueue = () =>
   dispatch => {
     axios.get('/api/queue')
       .then(res => {
-        // console.log("queue thunk!!!", res.data);
+        console.log("queue thunk!!!", res.data);
         dispatch(getQueue(res.data))
       })
       .catch(err => console.log(err))

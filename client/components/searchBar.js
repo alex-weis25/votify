@@ -1,5 +1,9 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import axios from "axios";
+import socket from '../sockets';
+
+import { fetchQueue } from '../store/queue.js'
 
 //Credentials
 const id = process.env.SPOTIFY_CLIENT_ID;
@@ -27,13 +31,22 @@ export class SearchBar extends Component {
       songId: addSong.id
     }
     axios.post('/api/search', content)
+    .then(() => {
+      return socket.emit('addSong')
+    })
+    .then(() => {
+      console.log("hit followup fetch")
+      store.dispatch(fetchQueue());
+    })
+    .catch(error => console.log(error))
+    // dispatch(fetchQueue())
   }
 
   onSearchClick = event => {
     event.preventDefault();
     const track = this.state.search.split(" ").join("+");
     const accessToken = this.props.accessToken;
-    console.log("track in onSearchClick!!", track);
+    // console.log("track in onSearchClick!!", track);
     //Search tracks
     let uri = "https://api.spotify.com/v1/search?q=";
     axios
@@ -42,11 +55,6 @@ export class SearchBar extends Component {
       })
       .then(response => {
         const tracks = response.data.tracks.items;
-        console.log("song info: ", tracks);
-        console.log("song 1 name: ", tracks[0].name);
-        console.log("artist 1 name: ", tracks[0].artists[0].name);
-        console.log("song 2 name: ", tracks[1].name);
-        console.log("artist 2 name: ", tracks[1].artists[0].name);
         this.setState({
           tracks: [
             {
@@ -66,19 +74,8 @@ export class SearchBar extends Component {
             }
           ]
         });
-        // this.setState({ search: response.data.display_name,
-        // accessToken });
       });
     console.log("news songs on state?", this.state);
-    // const content = {
-    //   name: artist,
-    //   artist: "default artist"
-    // }
-    // axios.post('/api/search', content)
-    // .then(results => console.log(results))
-    // axios.get('/api/search/artist', content)
-    // .then(results => console.log(results.data))
-    // .catch(error => console.log(error))
   };
 
   handleChange = event => {
@@ -87,13 +84,12 @@ export class SearchBar extends Component {
     this.setState({
       [name]: value
     });
-    // console.log("search: ", this.state.search)
   };
 
   render() {
     // console.log("props on searchBar: ", this.props);
     const currentSongs = this.state.tracks;
-    console.log("currentSongs: ", currentSongs);
+    console.log("currentSongs: ", this.props);
     return (
       <div id="search-bar">
         <form id="search-bar-form" onSubmit={this.onSearchClick}>
@@ -102,7 +98,7 @@ export class SearchBar extends Component {
             className="form-control"
             value={this.state.search}
             onChange={this.handleChange}
-            placeholder="search artist"
+            placeholder="search song by title"
           />
           <button type="submit">Submit</button>
         </form>
@@ -130,3 +126,15 @@ export class SearchBar extends Component {
     );
   }
 }
+
+const mapState = null;
+const mapDispatch = dispatch => {
+  return {
+    loadInitialData() {
+      dispatch(fetchQueue());
+    }
+  };
+};
+
+
+export default connect(mapState, mapDispatch)(SearchBar);
