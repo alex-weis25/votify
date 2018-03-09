@@ -9,8 +9,6 @@ socket.on('connect', () => {
 })
 
 socket.on('newQueue', () => {
-  console.log('in the socket newQueue')
-  console.log("fetching queue!", dispatch)
   store.dispatch(fetchQueue());
 })
 

@@ -1,16 +1,16 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter, Route, Switch } from "react-router-dom";
-
 import queryString from "query-string";
 import socket from './sockets';
 import axios from "axios";
-// import { withRouter } from 'react-router-dom'
 
+//Import components
 import { SearchBar } from "./components/searchBar";
 import { Login } from "./components/login";
 import { Queue } from "./components/queue";
 import { fetchQueue } from "./store/queue.js";
+
 
 export class App extends Component {
   constructor(props) {
@@ -44,7 +44,7 @@ export class App extends Component {
   };
 
   render() {
-    // console.log("props: on app", this.props);
+    console.log("props: on app", this.props);
     // console.log(this.state);
     const songList = this.props.Queue.queue;
     const loggedIn = this.state.loggedIn;
@@ -53,14 +53,12 @@ export class App extends Component {
         <div>
           <h3> Spotify playlist </h3>
           <SearchBar accessToken={this.state.accessToken}/>
-          <Queue newList={songList} />
+          <Queue newList={songList}/>
         </div>
       </div>
     );
   }
 }
-
-// export default App;
 
 const mapState = ({ Queue }) => ({ Queue });
 
@@ -72,8 +70,6 @@ const mapDispatch = dispatch => {
   };
 };
 
-// The `withRouter` wrapper makes sure that updates are not blocked
-// when the url changes
 export default connect(mapState, mapDispatch)(App);
 
 //To figure out login

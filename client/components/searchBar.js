@@ -2,14 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
 import socket from '../sockets';
-
 import { fetchQueue } from '../store/queue.js'
 
-//Credentials
-const id = process.env.SPOTIFY_CLIENT_ID;
-const secret = process.env.SPOTIFY_CLIENT_SECRET;
-const callback = process.env.SPOTIFY_CLIENT_REDIRECT;
-const authUri = "https://accounts.spotify.com/authorize";
 
 export class SearchBar extends Component {
   constructor(props) {
@@ -35,8 +29,7 @@ export class SearchBar extends Component {
       return socket.emit('addSong')
     })
     .then(() => {
-      console.log("hit followup fetch")
-      store.dispatch(fetchQueue());
+      socket.emit('redirect')
     })
     .catch(error => console.log(error))
     // dispatch(fetchQueue())
@@ -75,7 +68,6 @@ export class SearchBar extends Component {
           ]
         });
       });
-    console.log("news songs on state?", this.state);
   };
 
   handleChange = event => {
@@ -89,7 +81,7 @@ export class SearchBar extends Component {
   render() {
     // console.log("props on searchBar: ", this.props);
     const currentSongs = this.state.tracks;
-    console.log("currentSongs: ", this.props);
+    // console.log("Props on searchBar: ", this.props);
     return (
       <div id="search-bar">
         <form id="search-bar-form" onSubmit={this.onSearchClick}>
@@ -127,7 +119,8 @@ export class SearchBar extends Component {
   }
 }
 
-const mapState = null;
+const mapState = ({ Queue }) => ({ Queue});
+
 const mapDispatch = dispatch => {
   return {
     loadInitialData() {
@@ -135,6 +128,5 @@ const mapDispatch = dispatch => {
     }
   };
 };
-
 
 export default connect(mapState, mapDispatch)(SearchBar);

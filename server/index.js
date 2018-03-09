@@ -87,7 +87,6 @@ db.sync().then(() => {
   console.log("syncing database...")
 })
 
-// console.log('server!!!!!', server);
 //Sockets
 const io = socketio(server)
 
@@ -95,8 +94,16 @@ io.on('connection', (socket) => {
   console.log(`${socket.id} has joined the party!`)
 
   socket.on('addSong', () => {
-    console.log("bout to broadcast")
     socket.broadcast.emit('newQueue')
+  })
+
+  socket.on('redirect', () => {
+    socket.emit('newQueue')
+  })
+
+  socket.on('voted', () => {
+    console.log('in voted server socket')
+    socket.emit('newQueue')
   })
 
   socket.on('disconnect', socket => {

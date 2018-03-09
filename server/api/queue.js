@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const Songs = require('../db/models/songs.js')
+const Songs = require('../db/models/songs.js');
+
 
 module.exports = router;
 
@@ -34,15 +35,20 @@ router.delete('/', (req, res, next) => {
 })
 
 router.put('/', (req, res, next) => {
+  console.log('in voted route')
   Songs.find({ where: {
     name: req.body.name
   }})
   .then(song => {
     let score = song.score + req.body.value;
     console.log("new score", score)
-    return Songs.update(
+    Songs.update(
       { score: score},
       { where: {name: req.body.name} })
+  })
+  .then(() => {
+    console.log('finished vote update')
+    res.send('updated')
   })
   .catch(next);
 })

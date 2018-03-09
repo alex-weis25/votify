@@ -2,9 +2,7 @@ const express = require('express');
 const router = express.Router();
 const axios = require('axios');
 const Songs = require('../db/models/songs.js')
-// const io = require('../index.js')
 
-const Spotify = require('machinepack-spotify');
 require('../../secrets.js')
 
 const id = process.env.SPOTIFY_CLIENT_ID;
