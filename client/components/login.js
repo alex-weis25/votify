@@ -6,13 +6,12 @@ export class Login extends Component {
   constructor(props){
     super(props);
     this.state = {
+      loggedIn: ''
     }
   }
 
   onClick = (event) => {
     event.preventDefault();
-    console.log('in loginClick')
-    axios.get('/login')
   }
 
   render() {

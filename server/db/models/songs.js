@@ -9,6 +9,9 @@ const Songs = db.define('songs', {
   artist: {
     type: Sequelize.STRING
   },
+  songId: {
+    type: Sequelize.TEXT
+  },
   score: {
     type: Sequelize.INTEGER,
     defaultValue: 0
