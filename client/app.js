@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { withRouter, Route, Switch } from "react-router-dom";
+import { withRouter, Route, Switch, Redirect } from "react-router-dom";
 import queryString from "query-string";
-import socket from './sockets';
+import socket from "./sockets";
 import axios from "axios";
 
 //Import components
@@ -11,14 +11,13 @@ import { Login } from "./components/login";
 import { Queue } from "./components/queue";
 import { fetchQueue } from "./store/queue.js";
 
-
 export class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       queue: [],
       loggedIn: "",
-      accessToken: ''
+      accessToken: ""
     };
   }
 
@@ -32,8 +31,10 @@ export class App extends Component {
         headers: { Authorization: "Bearer " + accessToken }
       })
       .then(response => {
-        this.setState({ loggedIn: response.data.display_name,
-        accessToken });
+        this.setState({
+          loggedIn: response.data.display_name,
+          accessToken
+        });
       });
   }
 
@@ -45,16 +46,18 @@ export class App extends Component {
 
   render() {
     console.log("props: on app", this.props);
-    // console.log(this.state);
+    console.log("loggedIn: ", this.state.loggedIn);
+
     const songList = this.props.Queue.queue;
     const loggedIn = this.state.loggedIn;
     return (
       <div>
-        <div>
-          <h3> Spotify playlist </h3>
-          <SearchBar accessToken={this.state.accessToken}/>
-          <Queue newList={songList}/>
-        </div>
+          <div>
+            <h3> Spotify playlist </h3>
+            <Login/>
+            <SearchBar accessToken={this.state.accessToken}/>
+            <Queue newList={songList} />
+          </div>
       </div>
     );
   }

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import axios from "axios";
 
 export class Login extends Component {
@@ -11,14 +11,15 @@ export class Login extends Component {
   }
 
   onClick = (event) => {
-    event.preventDefault();
+    // event.preventDefault();
+
   }
 
   render() {
 
     return (
       <div id="login">
-        <button onClick={this.onClick}>Login with Spotify</button>
+        <Link to='/login'>Login with Spotify</Link>
       </div>
     );
   }

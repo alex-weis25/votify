@@ -12,6 +12,9 @@ const Songs = db.define('songs', {
   songId: {
     type: Sequelize.TEXT
   },
+  albumImg: {
+    type: Sequelize.TEXT
+  },
   score: {
     type: Sequelize.INTEGER,
     defaultValue: 0

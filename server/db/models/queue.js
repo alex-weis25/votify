@@ -9,6 +9,9 @@ const Queue = db.define('queue', {
   artist: {
     type: Sequelize.STRING
   },
+  albumImg: {
+    type: Sequelize.STRING
+  },
   score: {
     type: Sequelize.INTEGER,
     defaultValue: 0

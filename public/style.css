@@ -1,0 +1,36 @@
+img {
+  height: 75px;
+  width: 75px;
+}
+
+.queue-item {
+  display: flex
+}
+.vote-button-up {
+
+  background-color: #4CAF50; /* Green */
+  border: none;
+  width: 25px;
+  height: 15px;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 8px;
+}
+
+.vote-button-down {
+  background-color: rgb(134, 11, 11); /* Green */
+  border: none;
+  width: 25px;
+  height: 15px;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 8px;
+}
+
+

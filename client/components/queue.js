@@ -15,6 +15,7 @@ export class Queue extends Component {
 
   onClick = (event) => {
     event.preventDefault();
+    this.btn.setAttribute("disabled", "disabled");
     let { name, value } = event.target;
     const data = {
       name: name,
@@ -39,12 +40,15 @@ export class Queue extends Component {
           {queue &&
             queue.map(song => {
               return (
-                <div>
+                <div className="queue-item">
+                <div className="album-art">
+                  <img src={song.albumImg}/>
+                </div>
                   <option key={song.id} name={song.name}>
-                    Title: {song.name} votes: {song.score}
+                   Title: {song.name} votes: {song.score}
                   </option>
-                  <button name={song.name} value='1' onClick={this.onClick}>upVote</button>
-                  <button name={song.name} value='-1' onClick={this.onClick}>downVote</button>
+                  <button className="vote-button-up" name={song.name} value='1' onClick={this.onClick}  ref={btn => { this.btn = btn; }}>upVote</button>
+                  <button className="vote-button-down" name={song.name} value='-1' onClick={this.onClick}>downVote</button>
                 </div>
               );
             })}

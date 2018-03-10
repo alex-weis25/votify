@@ -15,30 +15,6 @@ module.exports = router;
 
 let url = 'https://api.spotify.com/v1/search?q='
 
-router.get('/artist', (req, res, next) => {
-  let searchUrl = `${url}beatles&type=artist`
-
-  console.log("req body in artist post", req.body, searchUrl);
-  const sendData = {
-    Host: 'api.spotify.com',
-    Accept: 'application/json',
-    "Content-Type": 'application/json',
-    "Authorization": `Bearer ${bearer}`
-  }
-  const authData = {
-    authorization: `Bearer ${id}`
-  };
-
-  axios.get(searchUrl, sendData)
-  .then(results => {
-    console.log("SUCCESS!!!", results.data)
-    res.json(results)
-  })
-  .catch(error => {
-    console.log('SendData: ', sendData)
-    console.log("error in search", error)
-  })
-})
 
 router.post('/', (req, res, next) => {
   console.log('in post route:', req.body)

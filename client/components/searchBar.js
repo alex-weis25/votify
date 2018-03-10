@@ -18,11 +18,11 @@ export class SearchBar extends Component {
     event.preventDefault();
     const { name } = event.target;
     const addSong = this.state.tracks[name]
-    // console.log("on song add: ", name, this.state.tracks[name])
     const content = {
       name: addSong.name,
       artist: addSong.artist,
-      songId: addSong.id
+      songId: addSong.id,
+      albumImg: addSong.albumImg
     }
     axios.post('/api/search', content)
     .then(() => {
@@ -32,15 +32,12 @@ export class SearchBar extends Component {
       socket.emit('redirect')
     })
     .catch(error => console.log(error))
-    // dispatch(fetchQueue())
   }
 
   onSearchClick = event => {
     event.preventDefault();
     const track = this.state.search.split(" ").join("+");
     const accessToken = this.props.accessToken;
-    // console.log("track in onSearchClick!!", track);
-    //Search tracks
     let uri = "https://api.spotify.com/v1/search?q=";
     axios
       .get(`${uri}${track}&type=track`, {
@@ -48,22 +45,37 @@ export class SearchBar extends Component {
       })
       .then(response => {
         const tracks = response.data.tracks.items;
+        console.log("song info: ", response.data)
         this.setState({
           tracks: [
             {
               name: tracks[0].name,
               artist: tracks[0].artists[0].name,
+              albumImg: tracks[0].album.images[0].url,
               id: tracks[0].id
             },
             {
               name: tracks[1].name,
               artist: tracks[1].artists[0].name,
+              albumImg: tracks[1].album.images[0].url,
               id: tracks[1].id
             },
             {
               name: tracks[2].name,
               artist: tracks[2].artists[0].name,
+              albumImg: tracks[2].album.images[0].url,
               id: tracks[2].id
+            },
+            {
+              name: tracks[3].name,
+              artist: tracks[3].artists[0].name,
+              albumImg: tracks[3].album.images[0].url,
+              id: tracks[3].id
+            },{
+              name: tracks[4].name,
+              artist: tracks[4].artists[0].name,
+              albumImg: tracks[4].album.images[0].url,
+              id: tracks[4].id
             }
           ]
         });
@@ -81,7 +93,6 @@ export class SearchBar extends Component {
   render() {
     // console.log("props on searchBar: ", this.props);
     const currentSongs = this.state.tracks;
-    // console.log("Props on searchBar: ", this.props);
     return (
       <div id="search-bar">
         <form id="search-bar-form" onSubmit={this.onSearchClick}>
@@ -109,7 +120,7 @@ export class SearchBar extends Component {
                       {song.name} by {song.artist}
                     </h4>
                   </option>
-                  <button name={index} onClick={this.onSongAdd}>Add to playlist</button>
+                  <button name={index} onClick={this.onSongAdd} >Add to playlist</button>
                 </div>
               );
             })}
@@ -119,7 +130,7 @@ export class SearchBar extends Component {
   }
 }
 
-const mapState = ({ Queue }) => ({ Queue});
+const mapState = ({ Queue }) => ({ Queue });
 
 const mapDispatch = dispatch => {
   return {
