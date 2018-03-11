@@ -45,7 +45,7 @@ export class SearchBar extends Component {
       })
       .then(response => {
         const tracks = response.data.tracks.items;
-        console.log("song info: ", response.data)
+        // console.log("song info: ", response.data)
         this.setState({
           tracks: [
             {

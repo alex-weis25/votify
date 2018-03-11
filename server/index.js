@@ -41,7 +41,7 @@ res.redirect('https://accounts.spotify.com/authorize?' +
   querystring.stringify({
     response_type: 'code',
     client_id: process.env.SPOTIFY_CLIENT_ID,
-    scope: 'user-read-private user-read-email playlist-modify-public playlist-read-collaborative',
+    scope: 'user-read-private user-read-email playlist-modify-public playlist-read-collaborative playlist-modify-private user-read-currently-playing',
     redirect_uri
   }))
 })

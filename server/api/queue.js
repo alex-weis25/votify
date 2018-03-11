@@ -84,6 +84,7 @@ router.delete('/', (req, res, next) => {
     }})
   })
   .then(deleted => {
+
     console.log("deleted from db: ", deleted)
   })
   .catch(next);

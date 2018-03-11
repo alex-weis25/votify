@@ -15,7 +15,6 @@ export class Queue extends Component {
 
   onClick = (event) => {
     event.preventDefault();
-    this.btn.setAttribute("disabled", "disabled");
     let { name, value } = event.target;
     const data = {
       name: name,
@@ -31,7 +30,7 @@ export class Queue extends Component {
 
   render() {
     const queue = this.props.newList;
-    console.log("props on queue", this.props);
+    // console.log("props on queue", this.props);
     // console.log("Queue", queue);
     return (
       <div id="queue-list">
@@ -47,7 +46,7 @@ export class Queue extends Component {
                   <option key={song.id} name={song.name}>
                    Title: {song.name} votes: {song.score}
                   </option>
-                  <button className="vote-button-up" name={song.name} value='1' onClick={this.onClick}  ref={btn => { this.btn = btn; }}>upVote</button>
+                  <button className="vote-button-up" name={song.name} value='1' onClick={this.onClick}>upVote</button>
                   <button className="vote-button-down" name={song.name} value='-1' onClick={this.onClick}>downVote</button>
                 </div>
               );

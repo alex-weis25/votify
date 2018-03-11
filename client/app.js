@@ -9,13 +9,16 @@ import axios from "axios";
 import { SearchBar } from "./components/searchBar";
 import { Login } from "./components/login";
 import { Queue } from "./components/queue";
+import Votify from "./components/votify";
 import { fetchQueue } from "./store/queue.js";
+import { fetchVotify, fetchCurrent } from "./store/votify.js";
 
 export class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       queue: [],
+      votify: [],
       loggedIn: "",
       accessToken: ""
     };
@@ -25,7 +28,6 @@ export class App extends Component {
     this.props.loadInitialData();
     let parsed = queryString.parse(window.location.search);
     let accessToken = parsed.access_token;
-    console.log("access token&&", accessToken, parsed);
     axios
       .get("https://api.spotify.com/v1/me", {
         headers: { Authorization: "Bearer " + accessToken }
@@ -45,30 +47,39 @@ export class App extends Component {
   };
 
   render() {
-    console.log("props: on app", this.props);
-    console.log("loggedIn: ", this.state.loggedIn);
+    // console.log("props: on app", this.props);
+    // console.log("loggedIn: ", this.state.loggedIn);
 
     const songList = this.props.Queue.queue;
     const loggedIn = this.state.loggedIn;
     return (
       <div>
-          <div>
-            <h3> Spotify playlist </h3>
-            <Login/>
-            <SearchBar accessToken={this.state.accessToken}/>
+        <div>
+          <div id="title">
+            <h1> Votify </h1>
+          </div>
+          <div id="votify-display">
+            <Votify />
+          </div>
+          <Login />
+          <div id="search-display">
+            <SearchBar accessToken={this.state.accessToken} />
             <Queue newList={songList} />
           </div>
+        </div>
       </div>
     );
   }
 }
 
-const mapState = ({ Queue }) => ({ Queue });
+const mapState = ({ Queue, Votify }) => ({ Queue, Votify });
 
 const mapDispatch = dispatch => {
   return {
     loadInitialData() {
       dispatch(fetchQueue());
+      dispatch(fetchVotify());
+      dispatch(fetchCurrent());
     }
   };
 };
