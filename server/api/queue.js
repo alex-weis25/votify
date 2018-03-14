@@ -84,7 +84,7 @@ router.delete('/', (req, res, next) => {
     }})
   })
   .then(deleted => {
-
+    res.json(deleted);
     console.log("deleted from db: ", deleted)
   })
   .catch(next);

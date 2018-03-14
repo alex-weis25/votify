@@ -94,16 +94,25 @@ io.on('connection', (socket) => {
   console.log(`${socket.id} has joined the party!`)
 
   socket.on('addSong', () => {
+    console.log('addSong server socket')
     socket.broadcast.emit('newQueue')
   })
 
   socket.on('redirect', () => {
+    console.log('redirect server socket')
     socket.emit('newQueue')
   })
 
   socket.on('voted', () => {
     console.log('in voted server socket')
     socket.emit('newQueue')
+    socket.broadcast.emit('newQueue')
+  })
+
+  socket.on('newVotify', () => {
+    console.log('in voted server socket')
+    socket.emit('addVotify')
+    socket.broadcast.emit('addVotify');
   })
 
   socket.on('disconnect', socket => {

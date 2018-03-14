@@ -18,7 +18,6 @@ const initialState = {
  * ACTION CREATORS
  */
 const getQueue = queue => ({type: GET_QUEUE, queue})
-// const selectTicket = ticket => ({type: SELECT_TICKET, ticket})
 
 /**
  * THUNK CREATORS
@@ -32,15 +31,6 @@ export const fetchQueue = () =>
       })
       .catch(err => console.log(err))
   }
-
-// export const fetchTicket = (ticketId) =>
-// dispatch =>
-//   axios.get(`/api/tickets/${ticketId}`)
-//     .then(res =>
-//       dispatch(selectTicket(res.data)))
-//     .catch(err => console.log(err))
-
-
 
 /**
  * REDUCER

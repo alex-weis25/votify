@@ -10,13 +10,16 @@ export class Votify extends Component {
   }
 
   topSong = () => {
-    console.log("going to send to spotify");
     axios
       .delete("/api/queue")
+      .then(deleted => {
+        return socket.emit("newVotify");
+      })
       .then(() => {
-        console.log("updated playlist!");
-        socket.emit('addSong')
-        socket.emit('redirect')
+        return socket.emit("newVotify2");
+      })
+      .then(() => {
+        socket.emit("redirect");
       })
       .catch(err => console.log(err));
   };
@@ -39,33 +42,37 @@ export class Votify extends Component {
           songIndex = index;
         }
       });
-
     songIndex === playlistLength - 1 ? this.topSong() : "";
-    // console.log("props on votify: ", this.props)
-    console.log("CurrentSong: & index", current, songIndex);
+    let songCSS = "track-item"
     return (
       <div id="queue-list">
-        <h3> Votify playlist</h3>
+        <h2 className="component-title"> Votify playlist</h2>
         <div id="playlist-tracks">
           {tracks &&
             tracks.map(track => {
+              {track.track.id === current ? (songCSS = 'currently-playing') : (songCSS = 'track-item')
+              }
               return (
-                <div className="track-item">
-                  <div id="now-playing">
-                    {track.track.id === current ? (
-                      <h2> Currently playing </h2>
-                    ) : (
-                      ""
-                    )}
-                  </div>
-                  <div className="album-art">
-                    <img src={track.track.album.images[0].url} />
-                  </div>
-                  <div key={track.track.id} name={track.track.name}>
-                    Title: {track.track.name} by: {track.track.artists[0].name}
+                <div>
+                  <div className={songCSS}>
+                    <div className="album-art">
+                      <img src={track.track.album.images[0].url} />
+                    </div>
+                    <div id="now-playing" />
+                    <div
+                      className="track-details"
+                      key={track.track.id}
+                      name={track.track.name}
+                    >
+                      <div className={`track-name-${songCSS}`}>{track.track.name}</div>
+                      <div className={`track-artist-${songCSS}`}>
+                        {track.track.artists[0].name}{" "}
+                      </div>
+                    </div>
                   </div>
                 </div>
               );
+              songCSS = "track-item";
             })}
         </div>
       </div>

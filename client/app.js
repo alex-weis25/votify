@@ -54,14 +54,11 @@ export class App extends Component {
     const loggedIn = this.state.loggedIn;
     return (
       <div>
-        <div>
-          <div id="title">
-            <h1> Votify </h1>
-          </div>
+        <h1> Votify </h1>
+        <div id="main-wrapper">
           <div id="votify-display">
             <Votify />
           </div>
-          <Login />
           <div id="search-display">
             <SearchBar accessToken={this.state.accessToken} />
             <Queue newList={songList} />

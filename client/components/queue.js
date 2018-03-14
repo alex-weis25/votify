@@ -1,53 +1,72 @@
 import React, { Component } from "react";
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 import axios from "axios";
-import socket from '../sockets';
-
+import socket from "../sockets";
 
 export class Queue extends Component {
   constructor(props) {
     super(props);
     this.state = {
       queue: [],
-      search: ''
+      search: ""
     };
   }
 
-  onClick = (event) => {
+  onClick = event => {
     event.preventDefault();
+    console.log("event before:", event.target)
+    event.target.disabled = true
+    console.log("event after:", event.target)
     let { name, value } = event.target;
     const data = {
       name: name,
       value: +value
-    }
-    axios.put('./api/queue', data)
-    .then(next => {
-      console.log("emitting voted")
-      socket.emit('voted')
-    })
-    .catch(error => console.log(error));
-  }
+    };
+    axios
+      .put("./api/queue", data)
+      .then(next => {
+        socket.emit("voted");
+      })
+      .catch(error => console.log(error));
+  };
 
   render() {
     const queue = this.props.newList;
-    // console.log("props on queue", this.props);
-    // console.log("Queue", queue);
+    let votedTrue = false;
     return (
       <div id="queue-list">
-        <h3> Queue list </h3>
+        <h2 className="component-title"> Queue list </h2>
         <form id="search-bar-form" onSubmit={this.onSubmit}>
           {queue &&
             queue.map(song => {
               return (
                 <div className="queue-item">
-                <div className="album-art">
-                  <img src={song.albumImg}/>
-                </div>
-                  <option key={song.id} name={song.name}>
-                   Title: {song.name} votes: {song.score}
-                  </option>
-                  <button className="vote-button-up" name={song.name} value='1' onClick={this.onClick}>upVote</button>
-                  <button className="vote-button-down" name={song.name} value='-1' onClick={this.onClick}>downVote</button>
+                  <div className="album-art">
+                    <img src={song.albumImg} />
+                  </div>
+                  <div className="item-details" key={song.id} name={song.name}>
+                    <div>{song.name} </div>
+                    <div>{song.artist} </div>
+                    <div> votes: {song.score} </div>
+                  </div>
+                  <div className="button-container">
+                    <button disabled=''
+                      className="vote-button-up"
+                      name={song.name}
+                      value="1"
+                      onClick={this.onClick}
+                    >
+                      upVote
+                    </button>
+                    <button disabled=''
+                      className="vote-button-down"
+                      name={song.name}
+                      value="-1"
+                      onClick={this.onClick}
+                    >
+                      downVote
+                    </button>
+                  </div>
                 </div>
               );
             })}
@@ -57,9 +76,8 @@ export class Queue extends Component {
   }
 }
 
-
-const mapState = ({ Queue }) => ({ Queue })
+const mapState = ({ Queue }) => ({ Queue });
 
 const mapDispatch = null;
 
-export default connect(mapState, mapDispatch)(Queue)
+export default connect(mapState, mapDispatch)(Queue);

@@ -28,7 +28,6 @@ export const fetchVotify = () =>
   dispatch => {
     axios.get('/api/playlist/playlist')
       .then(res => {
-        // console.log("votify: ", res.data);
         dispatch(getVotify(res.data))
       })
       .catch(err => console.log(err))
@@ -38,7 +37,6 @@ export const fetchVotify = () =>
   dispatch => {
     axios.get('/api/playlist/currentTrack')
       .then(res => {
-        // console.log("current track: ", res.data);
         dispatch(getCurrent(res.data))
       })
       .catch(err => console.log(err))
